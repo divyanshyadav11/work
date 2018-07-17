@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  shop_system
+{% endblock %}
+{% block content %}
+
+{%if object_list%}
+
+<table  style="border: 1px solid black;">
+  <tr style="border: 1px solid black;">
+	<td style="border: 1px solid black;">product_name</td>
+	<td style="border: 1px solid black;">product_type</td>
+	<td style="border: 1px solid black;">Description</td>
+  </tr>   
+{% for product in object_list %} <!-- {{product.name}} -->
+  <tr>
+	<td style="border: 1px solid black;">
+	  <a href="{%url 'show_price' product.name%}">{{product.name}}</a>
+	</td> 
+	<td style="border: 1px solid black;">  
+	  <a href="">{{product.description}}</a>
+	</td> 
+	<td style="border: 1px solid black;"> 
+	  <a href="">{{product.ptype}}
+	  </a>
+	</td> 
+  </tr>
+{% endfor%}
+</table>
+
+{%endif%}
+
+{%if product%}
+
+<table  style="border: 1px solid black;">
+  <tr style="border: 1px solid black;">
+	<td style="border: 1px solid black;">product_name</td>
+	<td style="border: 1px solid black;">product_type</td>
+	<td style="border: 1px solid black;">Description</td>
+  </tr>   
+{% for product in product %} <!-- {{product.name}} -->
+  <tr>
+	<td style="border: 1px solid black;">
+	  <a href="{%url 'show_price' product.name%}">{{product.name}}</a>
+	</td> 
+	<td style="border: 1px solid black;">  
+	  <a href="">{{product.description}}</a>
+	</td> 
+	<td style="border: 1px solid black;"> 
+	  <a href="">{{product.ptype}}
+	  </a>
+	</td> 
+  </tr>
+{% endfor%}
+</table>
+
+{%endif%}
+
+{%if item%}
+<table  style="border: 1px solid black;">
+  <tr style="border: 1px solid black;">
+	<td style="border: 1px solid black;">product_name</td>
+	<td style="border: 1px solid black;">Amount</td>
+  </tr>  
+{% for p in item %} 
+  <tr style="border: 1px solid black;">
+	<td style="border: 1px solid black;">  {{p.name}}</td>
+	<td style="border: 1px solid black;">  {{p.price}}</td>
+  </tr>
+{% endfor%}
+  <tr>
+	<td>Total amount</td>
+	 <td>{{sum.total}}</td>
+  </tr>
+</table>
+<a href="{%url 'Buy_product' 'buy'  %}">buy now</a>
+<input type="submit" name="Save" class="btn btn-success" value="Empty Cart">
+
+{%endif%}
+
+<table style="border: 1px solid black;">
+  <tr style="border: 1px solid black;">
+  {% for c in company %} 
+	<td style="border: 1px solid black;">price of {{name}} on {{c.title}}&nbsp;
+	</td>
+  {% endfor%}                          
+  </tr>
+  <tr style="border: 1px solid black;">
+  {% for p in price  %}  
+	<td style="border: 1px solid black;">{{p.price}} <!-- {{p.id}}  -->   
+  {% if user.is_authenticated %}</br>
+	  <a href="{%url 'Buy_product' p.id %}"> add to cart >></a>{%endif%}
+  {% if not user.is_authenticated %}</br>
+	  <a href="{% url 'Buy_product' p.id   %}">buy now >></a></a>{%endif%}
+	</td>
+ 
+{% endfor%}   
+  </tr>
+</table>
+   
+{% endblock %}
