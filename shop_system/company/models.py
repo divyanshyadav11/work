@@ -14,17 +14,17 @@ class Company(models.Model):
 	logo = models.ImageField(upload_to = 'media')
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-	@receiver(models.signals.post_save, sender=settings.AUTH_USER_MODEL)
-	def send_reset_password_email(sender, instance, created, **kwargs):
-		if created:			
-			request = HttpRequest()
-			request.method = 'POST'			
-			if settings.DEBUG:
-				request.META['HTTP_HOST'] = '127.0.0.1:8000'
-			else:
-				request.META['HTTP_HOST'] = 'www.example.com'			
-			request.POST = {
-				'email': instance.email,
-				'csrfmiddlewaretoken': get_token(HttpRequest())
-			}		
-			PasswordResetView.as_view()(request)   
+	# @receiver(models.signals.post_save, sender=settings.AUTH_USER_MODEL)
+	# def send_reset_password_email(sender, instance, created, **kwargs):
+	# 	if created:			
+	# 		request = HttpRequest()
+	# 		request.method = 'POST'			
+	# 		if settings.DEBUG:
+	# 			request.META['HTTP_HOST'] = '127.0.0.1:8000'
+	# 		else:
+	# 			request.META['HTTP_HOST'] = 'www.example.com'			
+	# 		request.POST = {
+	# 			'email': instance.email,
+	# 			'csrfmiddlewaretoken': get_token(HttpRequest())
+	# 		}		
+	# 		PasswordResetView.as_view()#(request) 		

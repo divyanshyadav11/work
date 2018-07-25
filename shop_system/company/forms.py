@@ -62,16 +62,4 @@ class UpdateCompanyForm(forms.Form):#TODO: user space after the : in dict
 		queryset1.first_name = self.cleaned_data['first_name']
 		queryset1.last_name = self.cleaned_data['last_name']
 		queryset.save()
-		queryset1.save()
-
-
-	
-
-
-
-
-
-
-
-
-	
+		queryset1.save()	

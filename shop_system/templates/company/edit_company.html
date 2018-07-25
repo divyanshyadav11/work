@@ -2,60 +2,45 @@
 {% block title %}
 edit_company
 {% endblock %}
-{% block admin_conten %}   
-   
-
-
-    
-  <div class="container">
+{% block admin_conten %}    
+  <div class="container" style=" padding-left: 280px;">
     <div class="row">
-        <h3 class="col-sm-offset-3 col-sm-6">Register A Company</h3>
+        <h3 class="col-sm-offset-1 col-sm-6">Register A Company</h3>
     </div>
-    <div class="row">
-        <div class="col-sm-offset-1 col-sm-2">
-            
-        </div>
+    <div class="row">        
         <div class="col-sm-6">
             <form action="" method="post" accept-charset="utf-8" class="form" enctype="multipart/form-data">
                 <div class="row">{% csrf_token %}
                     <div class="col-xs-6 col-md-6">
-                       {{form.email}}                </div>
+                       {{form.email}}               
+                    </div>
                     <div class="col-xs-6 col-md-6">
-                            {{form.username}}                  </div>
+                            {{form.username}}                  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
-                       {{form.first_name}}                </div>
+                       {{form.first_name}}                
+                    </div>
                     <div class="col-xs-6 col-md-6">
-                            {{form.last_name}}                  </div>
+                            {{form.last_name}}                  
+                    </div>
                 </div>
-                 <div class="row">
+                <div class="row">
                     <div class="col-xs-6 col-md-6">
-                       {{form.title}}                </div>
+                       {{form.title}}                
+                    </div>
                     <div class="col-xs-6 col-md-6">
-                        <h5>upload your logo here:  {{form.logo}} </h5>
-                                            </div>
+                        <h5>upload your logo here:  {{form.logo}} </h5>                                            
+                    </div>
                 </div>
-               
-                    
-                       {{form.description}}              
-                    
-                
-                   
-                    <div >
-                      <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Create Company</button>               
-                    
-                       <button type="button"  class="cancelbtn">Cancel</button>
-                                            </div>
+                  {{form.description}}                   
+                <div>
+                  <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Create Company</button>               
+                  <button type="button"  class="cancelbtn">Cancel</button>
                 </div>
-                
-                <div class="clearfix">
-        
-        
-      </div>
-            </form>          
-        </div>
-      </div>
+            </form>   
+        </div>  
     </div>
-</div>
+  </div>    
 {% endblock %}

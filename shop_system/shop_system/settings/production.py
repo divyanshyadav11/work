@@ -1,4 +1,3 @@
-
 from base import *
 
 DEBUG = True
@@ -19,5 +18,3 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'rohanyadav84@gmail.com'
 EMAIL_HOST_PASSWORD = '123456dyadav'
 EMAIL_PORT = 587
-
-STATIC_URL = '/static/'

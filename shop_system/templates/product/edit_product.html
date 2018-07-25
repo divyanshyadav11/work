@@ -2,56 +2,40 @@
 {% block title %}
 edit_product
 {% endblock %}
-{% block content %}   
-	 
-
-    
-  <div class="container">
+{% block content %}    
+  <div class="container"  style=" padding-left: 280px;">
     <div class="row">
         <h3 class="col-sm-offset-3 col-sm-6">Create Product</h3>
     </div>
-    <div class="row">
-        <div class="col-sm-offset-1 col-sm-2">
-            
-        </div>
-        <div class="col-sm-6">
-            <form action="" method="post" accept-charset="utf-8" class="form" enctype="multipart/form-data">
-                <div class="row">{% csrf_token %}
-                    <div class="col-xs-6 col-md-6">
-                    	
-                       {{form.name}}                </div>
-                    <div class="col-xs-6 col-md-6">
-                          {{form.ptype}}                  </div>
-                </div>
-               <div class="row">{% csrf_token %}
-                    <div class="col-xs-6 col-md-6">
-                      {{form.price}}                </div>
-                    <div class="col-xs-6 col-md-6">
-                    	
-                            {{form.description}}                  </div>
-                </div>
-                 
-               
-                    
-                      
-                    
-                
-                   
-                    <div >
-                       <button type="button"  class="cancelbtn">Cancel</button>
-                                           
-                      <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Create Product</button>               
-                     </div>
-                </div>
-                
-                <div class="clearfix">
-        
-        
+    <div class="row">      
+      <div class="col-sm-6">
+        <form action="" method="post" accept-charset="utf-8" class="form" enctype="multipart/form-data">
+          <div class="row">{% csrf_token %}
+            <div class="col-xs-6 col-md-6">                   	
+                       {{form.name}}                
+            </div>
+            <div class="col-xs-6 col-md-6">
+              
+                          {{form.category}}                 
+            </div>
+          </div>
+          <div class="row">{% csrf_token %}
+            <div class="col-xs-6 col-md-6">
+                      {{form.price}}                
+            </div>
+            <div class="col-xs-6 col-md-6">                    	
+                           {{form.image}}                  
+            </div>
+          </div>
+          <div class="">                     
+                    {{form.description}}                           
+            </div>
+          <div>
+            <button type="button"  class="cancelbtn">Cancel</button>
+            <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Create 
+            </button>               
+          </div>         
+        </form>
       </div>
-            </form>          
-        </div>
-      </div>
-    </div>
-</div>
-  
+    </div> 
 {% endblock %}

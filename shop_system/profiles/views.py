@@ -4,20 +4,23 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 
-from product.models import Product
+from product.models import Product, Category
 from company.models import Company
 from profiles.models import User, Invoice, ProductInvoice
 
 
-class LandingView(ListView):
-    template_name = "profiles/landingpage.html"
-    model = Product
-    queryset = Product.objects.all().values('name', 'ptype', 'description').distinct()
+class LandingView(View):
+	category = Category.objects.order_by('category').values('category').distinct()
+	queryset1 = Product.objects.all().order_by('name')
+	queryset2 = queryset1.values('name').distinct()
+	company = Company.objects.all()
+	def get(self, request):		
+		return render(request,'profiles/landingpage.html' , {'object_list':self.queryset2,'category':self.category,'images':self.queryset1,'prices':self.company})
 
 landing = LandingView.as_view()
 
 class InvoiceView(ListView):
-	template_name = "profiles/invoice.html"
+	template_name = "profiles/invoice.html" 
 	model = Invoice
 	queryset = Invoice.objects.all()	
 
@@ -25,6 +28,7 @@ invoiceview = InvoiceView.as_view();
 
 class BuyProductView(View):
 	item=[]	
+	
 	def get(self, request, name):		
 		if not request.user.is_authenticated:
 			self.item.append(name)
@@ -37,17 +41,15 @@ class BuyProductView(View):
 			queryset = Product.objects.filter(id__in=self.item)
 			amount = queryset.aggregate(total=Sum('price'))
 			self.item.clear()
-			invoice = Invoice(	
+			invoice = Invoice.objects.create(	
 				user=request.user,
 				total=amount['total']
-							) 
-			invoice.save()
+							) 			
 			for i in queryset:
-				productinvoice = ProductInvoice(
+				productinvoice = ProductInvoice.objects.create(
 							invoice=invoice,
 							product=i.id
-										)
-				productinvoice.save()
+									)				
 			return redirect('landing')
 		else:
 			self.item.append(name)	
@@ -72,16 +74,29 @@ class ShowProductInvoiceView(View):
 
 ShowProductInvoice = ShowProductInvoiceView.as_view()
 
-class SearchPriceView(View):
+class SearchProductView(View):
+	queryset = Category.objects.all()
+	queryset1 = Product.objects.all()
+	def get(self, request,name):		
+		self.queryset1 = self.queryset1.filter(name=name)
+		if  self.queryset1 :
+			return render(request,'profiles/landingpage.html' , {'object_list':self.queryset1,'category':self.queryset.order_by('category').values('category').distinct(),'images': Product.objects.all().order_by('name'),'prices': Company.objects.all()})
+		else:
+			return render(request,'profiles/landingpage.html' , {'error':"Product not found :( ",'category':self.queryset.order_by('category').values('category').distinct()})
 
-	def get(self, request, name ):
-		queryset = Product.objects.all().values('name', 'ptype', 'description').distinct()
-		queryset1 = Product.objects.filter(name=name)
-		users=[]
-		for user in queryset1:
-			users.append(user.user)	
-		queryset2 = Company.objects.filter(user__in=users)
-		return render(request,'profiles/landingpage.html' , {'product':queryset, 'price': queryset1,'company':queryset2,'name':name})
+search_product = SearchProductView.as_view()
 
-SearchPrice = SearchPriceView.as_view()
+class SearchCategory(View):
+	queryset = Category.objects.all()
+	queryset1 = Product.objects.all().values('name').distinct()
+	def get(self, request,name):
+		queryset2 = self.queryset.filter(category=name)
+		self.queryset1 = self.queryset1.filter(category__in=queryset2)			
+		return render(request,'profiles/landingpage.html' , {'object_list':self.queryset1,'category':self.queryset.order_by('category').values('category').distinct(),'images': Product.objects.all().order_by('name'),'prices': Company.objects.all()})
+search_category = SearchCategory.as_view()
+
+
+def home(request):
+	category = Category.objects.order_by('category')
+	return render(request,'home.html',{'categorys':category})
 	

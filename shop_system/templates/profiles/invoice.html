@@ -4,71 +4,71 @@
   shop_system
 {% endblock %}
 {% block content %}
-<table id="example" class="display" style="width:100%">
-	<thead>
-		<tr>
-			<th scope="col">user</th>
-	  		<th scope="col">amount</th>
-	  		<th scope="col">Date</th>
-	  	</tr>
-	</thead>
-  	{% for product in object_list %}
-  		<tr>         
-			<td >
-				<button class="btn btn-link" onclick="show_invoice('{{product.id}}')">		{{product.user}}
-				</button>
-			</td>	 
-	  		<td>
-	  			{{product.total}}
-	  		</td>
-	 		 <td>
-	 		 {{product.date}}
-	 		</td>
-	 	</tr>
-  	{% endfor%}
-</table>
-<!-- Modal -->
-<div class="modal"  id="myModal" role="dialog">
-	<div class="modal-dialog"><!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-		  		<p>product purchesed.</p>
-			</div>			
-				<div class="modal-body">
-					<input type="submit" name="Save" class="btn btn-success">
+	<table id="example" class="display" style="width:100%">
+		<thead>
+			<tr>
+				<th scope="col">user</th>
+		  		<th scope="col">amount</th>
+		  		<th scope="col">Date</th>
+		  	</tr>
+		</thead>
+	  	{% for product in object_list %}
+	  		<tr>         
+				<td >
+					<button class="btn btn-link" onclick="show_invoice('{{product.id}}')">		{{product.user}}
+					</button>
+				</td>	 
+		  		<td>
+		  			{{product.total}}
+		  		</td>
+		 		 <td>
+		 		 {{product.date}}
+		 		</td>
+		 	</tr>
+	  	{% endfor%}
+	</table>
+	<!-- Modal -->
+	<div class="modal"  id="myModal" role="dialog">
+		<div class="modal-dialog"><!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  		<p>product purchesed.</p>
 				</div>			
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">
-			<a href=""> Close</a>
-			</button>
-		</div>
-	</div>  
-</div>   
-<script type="text/javascript">$(document).ready(function() {
-		$('#example').DataTable( {
-			"pagingType": "first_last_numbers",
-			 "lengthChange": false,
-			"info":     false,
-			 "searching": false,
-			 "dom": 'rt <"col-sm-6 text-center"p>'
+					<div class="modal-body">
+						<input type="submit" name="Save" class="btn btn-success">
+					</div>			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+				<a href=""> Close</a>
+				</button>
+			</div>
+		</div>  
+	</div>   
+	<script type="text/javascript">$(document).ready(function() {
+			$('#example').DataTable( {
+				"pagingType": "first_last_numbers",
+				 "lengthChange": false,
+				"info":     false,
+				 "searching": false,
+				 "dom": 'rt <"col-sm-6 text-center"p>'
 
-		} );
-		} );
-		</script>
-<script >
-	function show_invoice(id){
-		$.ajax({
-			type: 'GET',
-			url: "{%url 'show_product_invoice' 0%}".replace(0, id),           
-			success: function (output) {
-				$('.modal').show();
-				$('.modal-body').html(output);         
-			},
-			error: function(output){			 
-			}
-		});
-	}
-</script> 
+			} );
+			} );
+			</script>
+	<script >
+		function show_invoice(id){
+			$.ajax({
+				type: 'GET',
+				url: "{%url 'show_product_invoice' 0%}".replace(0, id),           
+				success: function (output) {
+					$('.modal').show();
+					$('.modal-body').html(output);         
+				},
+				error: function(output){			 
+				}
+			});
+		}
+	</script> 
 {% endblock %}

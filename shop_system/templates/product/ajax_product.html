@@ -1,52 +1,37 @@
-{% block admin_conten %}
-
-
-    
+{% block admin_conten %}    
   <div class=".container-fluid">
     <div class="row">
         <h3 class="col-sm-offset-3 col-sm-10">Edit Company</h3>
     </div>
-    <div class="row">
-        <div class="col-sm-offset-1 col-sm-2">
-            
-        </div>
-        <div class="col-sm-12">
-            <form action="{%url 'product_update' 0%}" method="post" accept-charset="utf-8" class="form" enctype="multipart/form-data"  id="myform">
-                <div class="row">{% csrf_token %}
-                    <div class="col-xs-6 col-md-6">
-                       {{form.name}}                </div>
-                    <div class="col-xs-6 col-md-6">
-                            {{form.ptype}}                  </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                       {{form.price}}                </div>
-                    <div class="col-xs-6 col-md-6">
-                            {{form.description}}                  </div>
-                </div>         
-                    
-                             
-                    
-                
-                   
-                    <div >
-                      <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Update Product</button>               
-                    
-                       <button type="button"  class="cancelbtn">Cancel</button>
-                                            </div>
-                </div>
-                
-        
-        
-      </div>
-            </form>          
-        </div>
-      </div>
-    </div>
-</div>
-
-
-
-
-
+    <div class="row">        
+      <div class="col-sm-12">
+        <form action="{%url 'product_update' 0%}" method="post" accept-charset="utf-8" class="form" enctype="multipart/form-data"  id="myform">
+          <div class="row">{% csrf_token %}
+            <div class="col-xs-6 col-md-6">
+                       {{form.name}}                
+            </div>
+            <div class="col-xs-6 col-md-6">
+                            {{form.category}}               
+            </div>
+          </div>
+          <div class="row">{% csrf_token %}
+            <div class="col-xs-6 col-md-6">
+                      {{form.price}}                
+            </div>
+            <div class="col-xs-6 col-md-6">                     
+                           {{form.image}}                  
+            </div>
+          </div>
+          <div class="">                     
+                    {{form.description}}                           
+            </div>
+          <div>
+            <button type="submit" class="signupbtn" value="submit" style="padding-right: 80px;">Update Product
+            </button>               
+            <button type="button"  class="cancelbtn">Cancel</button>
+          </div>
+        </form>  
+      </div>       
+    </div>                   
+  </div>
 {% endblock %}

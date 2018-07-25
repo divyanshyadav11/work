@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+	{% block title %}
+	  shop_system
+	{% endblock %}
+{% block content %}
+{% load static %}
+  <div class="container"style="padding-right: 0px;
+    padding-left: 0px;">
+  
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item">
+        <img src="{% static 'images/b.jpg'%}" alt="Chicago" style="width:100%;">
+      </div>
+    
+      <div class="item active">
+        <img src="{% static 'images/a.jpg'%}" alt="Los Angeles" style="width:100%;">
+      </div>
+
+    
+      
+    	<!-- <div class="item active">
+        <img src="{% static 'images/e.jpg'%}" alt="Los Angeles" style="width:100%;"></div> -->
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control left carousel-control-prev" href="#myCarousel" data-slide="prev">
+				<i class="fa fa-angle-left"></i>
+			</a>
+			<a class="carousel-control right carousel-control-next" href="#myCarousel" data-slide="next">
+				<i class="fa fa-angle-right"></i>
+			</a>
+  </div>
+</div>
+<div class="container">
+	<br><h2>FETURED <b>CATEGORY</b>:-</h2>
+</div>
+ <div class="container"style="padding-right: 0px;
+    padding-left: 0px;">
+  
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    
+    <div class="carousel-inner">
+    	<div class="row">
+    		{%for a in categorys%}
+						<div class="col-sm-3">
+							<div class="thumb-wrapper">
+								
+								<div class="thumb-content">
+									<h2>{{a.category}}</h2>								
+								</div>						
+								<div class="img-box">
+									<center>
+									<img src="{{a.image.url}}" class="img-responsive img-fluid" alt="">					</center>								
+								</div><br>
+								<p>{{a.description}}</p>
+									<a href="#" class="btn btn-primary">Show More</a>
+							</div><br>
+						</div>
+						{%endfor%}
+						
+						
+				</div>
+			</div></div></div><br><Br><br><br>
+      
+
+    
+      
+    
+{% endblock %}
