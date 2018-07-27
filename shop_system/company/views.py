@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView, DeleteView, FormView
 
 from .models import Company
 from profiles.models import User
+from product.models import Product
 from .forms import CompanyForm, UpdateCompanyForm
 
 
@@ -59,3 +60,11 @@ class CompanyDeleteView(DeleteView):
 	success_url = reverse_lazy('company_list')
 
 company_delete_view = CompanyDeleteView.as_view()
+
+class ShowProduct(View):
+	
+	def get(self,request,name):
+		queryset = Product.objects.filter(user__in=name)
+		print(queryset)
+		return render(request,'company/cproducts.html' ,{'object_list':queryset})
+show_products = ShowProduct.as_view()

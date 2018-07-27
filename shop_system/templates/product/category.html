@@ -1,126 +1,116 @@
 {% extends 'base.html' %}
 {% block content %}    
-         
-                  
-    
-  <div class="container"  style=" padding-left: 300px;">
-   
-    <div class="row">
-      <div  align="right">
-        <button type="button" class="btn btn-warning" onclick="createcatgory()">create Category
-        </button> </div>
-  {%if object_list %}      
-     
-      <div class="row">      
-        <div class="col-sm-6">       
-          <table id="example" class="display" style="width:100%">
-        <thead>
-          <tr>
-            <th scope="col">name of catgory</th>
-              
-              <th scope="col">Action</th>
-              
-          </tr>
-        </thead>
-      {% for category in object_list %}
-        <tr>
-          <td>{{category.category}}</td>
-            <td><p data-placement="top" data-toggle="tooltip" title="Edit"
-            style="display:inline"><button class="btn btn-primary btn-xs" onclick="catgory_update('{{category.id}}')" ><span class="glyphicon glyphicon-pencil"></span></button></p>   
-            <p data-placement="top" data-toggle="tooltip" title="Delete" style="display:inline"><button class="btn btn-danger btn-xs" onclick="catgory_delete('{{category.id}}')" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
-
-        </tr>
-      {% endfor%}
-      </table>
-    {%endif%}
-        
-      </div>
-  </div> 
-    <!-- Modal -->
-  <div class="modal"  id="myModal" role="dialog">
-    <div class="modal-dialog"><!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <a href=""><button type="button" class="close" data-dismiss="modal">&times;</button></a>
-          
-        </div>
-        
-          <div class="modal-body">
-            <a href=""><input type="submit" name="Save" class="btn btn-success"></a>
-          
-        </form>
-      </div>
-      
-    </div>  
-  </div>
-
-
-  <script >
-    function createcatgory(){
-      $.ajax({
-        type: 'GET',
-        url: "{% url 'category_create' %}",       
-        success: function (output) {
-          $('.modal').show();
-          $('.modal-body').html(output);
-          $('#edit_catgory').attr('action', "{%url 'category_create'%}");           
-        },
-        error: function(output){
-          alert(output)
-         
-        }
-      });
-    }
-    
-  </script>
-<script >
-    function catgory_update(id){
-      $.ajax({
-      type: 'GET',
-      url: "{% url 'category_update' 0%}".replace(0,id),       
-      success: function (output) {
-        $('.modal').show();
-        $('.modal-body').html(output);
-        $('#edit_catgory').attr('action', "{% url 'category_update' 0%}".replace(0,id));          
-      },
-      error: function(output){
-        alert(output)
-       
-      }
-      });
-    }
+	<div class="container"  style=" padding-left: 300px;">   
+		<div class="row">
+	  		<div  align="right">
+				<button type="button" class="btn btn-warning" onclick="createcatgory()">create Category
+				</button> 
+			</div>
+  			{%if object_list %}
+  				<div class="row">      
+					<div class="col-sm-6">       
+		  				<table id="example" class="display" style="width:100%">
+							<thead>
+		  						<tr>
+									<th scope="col">name of catgory</th>		  
+			  						<th scope="col">Action</th>			  
+		  						</tr>
+							</thead>
+	  						{% for category in object_list %}
+								<tr>
+		  							<td>{{category.category}}</td>
+									<td>
+										<p data-placement="top" data-toggle="	
+											tooltip" title="Edit"
+											style="display:inline">
+											<button class="btn btn-primary btn-xs" onclick="catgory_update('{{category.id}}')" >
+												<span class="glyphicon glyphicon-pencil">			
+												</span>
+											</button>
+										</p>   
+										<p data-placement="top" data-toggle="
+											tooltip" title="Delete" style="display:inline">
+											<button class="btn btn-danger btn-xs" onclick="catgory_delete('{{category.id}}')" >
+												<span class="glyphicon glyphicon-trash"></span>
+											</button>
+										</p>
+									</td>
+								</tr>
+							{% endfor%}
+						</table>
+					</div>
+				</div>
+			{%endif%}
+		</div>
+	</div> 
+	<!-- Modal -->
+	<div class="modal"  id="myModal" role="dialog">
+		<div class="modal-dialog"><!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+			  		<a href=""><button type="button" class="close" data-dismiss="modal">&times;</button></a>
+			  	</div>
+			  	<div class="modal-body">
+					<a href=""><input type="submit" name="Save" class="btn btn-success"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script >
+		function createcatgory(){
+	  		$.ajax({
+				type: 'GET',
+				url: "{% url 'category_create' %}",       
+				success: function (output) {
+		  			$('.modal').show();
+		  			$('.modal-body').html(output);
+		  			$('#edit_catgory').attr('action', "{%url 'category_create'%}");
+		  			},
+		  		error: function(output){
+		  			alert(output)
+		  			}
+		  	});
+		}	
+  	
+		function catgory_update(id){
+	  		$.ajax({
+	  			type: 'GET',
+	  			url: "{% url 'category_update' 0%}".replace(0,id),       
+	  			success: function (output) {
+					$('.modal').show();
+					$('.modal-body').html(output);
+					$('#edit_catgory').attr('action', "{% url 'category_update' 0%}".replace(0,id));          
+	  				},
+	  				error: function(output){
+						alert(output)
+	   
+	  					}
+	  		});
+		}  
   
-  </script>
- <script >
-    function catgory_delete(id){
-      $.ajax({
-      type: 'GET',
-      url: "{% url 'delete_category' 0%}".replace(0,id),       
-      success: function (output) {
-        $('.modal').show();
-        $('.modal-body').html(output);
-        // $('#edit_catgory').attr('action', "{% url 'delete_category' 0%}".replace(0,id);          
-      },
-      error: function(output){
-        alert(output)
-       
-      }
-      });
-    }
-  
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#example').DataTable( {
-        "pagingType": "first_last_numbers",
-         "lengthChange": false,
-        "info":     false,
-         "searching": false,
-         "dom": 'rt <"col-sm-6 text-center"p>'
-
-      } );
-      } );
-      </script>
-
-
+		function catgory_delete(id){
+	  		$.ajax({
+		  		type: 'GET',
+		  		url: "{% url 'delete_category' 0%}".replace(0,id),       
+		  		success: function (output) {
+					$('.modal').show();
+					$('.modal-body').html(output);
+			        },
+		  		error: function(output){
+					alert(output)
+					}
+			});
+		}  
+  	
+		$(document).ready(function() {
+	  		$('#example').DataTable( {
+				"pagingType": "first_last_numbers",
+		 		"lengthChange": false,
+				"info":     false,
+		 		"searching": false,
+		 		"dom": 'rt <"col-sm-6 text-center"p>'
+	  			});
+	  		});
+	</script>
 {% endblock %}

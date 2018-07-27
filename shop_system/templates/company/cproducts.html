@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+gh
+{% endblock %}
+{% block admin_conten %}
+
+	<div class="container">
+		
+		<table id="example" class="display" style="width:100%">
+			<thead>
+				<tr>
+					<th scope="col">Product_name</th>
+					<th scope="col">Description</th>
+					<th scope="col">Image</th>
+					<th scope="col">Action</th>					
+				</tr>
+			</thead>
+			{% for product in object_list %}
+				<tr>			
+					<td >{{product.name}}</td>
+					<td>{{product.description}}</td>
+					<td>
+						<img src="http://127.0.0.1:8000/media/{{product.image}}"  alt=""
+						width="50px" height="50px"> 
+					</td>					
+					<td>
+						<p data-placement="top" data-toggle="tooltip" title="Edit"
+						style="display:inline">
+							<button class="btn btn-primary btn-xs" onclick="updateproduct('{{product.id}}')" >
+								<span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</p>   
+						<p data-placement="top" data-toggle="tooltip" title="Delete" style="display:inline">
+							<button class="btn btn-danger btn-xs" onclick="deleteproduct('{{product.id}}','{{product.name}}')" >
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</p>
+					</td>					
+				</tr>
+			{% endfor%}
+		</table>
+	</div>	<script>
+		$(document).ready(function() {
+			$('#example').DataTable( {
+				"pagingType": "first_last_numbers",
+				 "lengthChange": false,
+				"info":     false,
+				 "searching": false,
+				 "dom": 'rt <"col-sm-6 text-center"p>'
+			} );
+			} );</script>	{% endblock %}

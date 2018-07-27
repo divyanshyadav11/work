@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}
+user
+{% endblock %}
+{% block admin_conten %}
+<div class="container">
+		    <div class="row">    
+		        <div class="col-xs-8 col-xs-offset-2">
+				    <div class="input-group">
+				    	<div class="input-group-btn search-panel">
+                    		
+						</div>		                
+		                <input type="hidden" name="search_param" value="all" id="search_param">         
+		                <input type="text" class="form-control" id="search" placeholder="Search User ....">
+		                <span class="input-group-btn">
+		                    <button class="btn btn-default" type="button" onclick="searchOpen()">
+		                    	<span class="glyphicon glyphicon-search"></span>
+		                    </button>
+		                </span>
+		            </div>
+		        </div>
+			</div>
+		</div><br><br>
+	<div class="container">
+		
+		<table id="example" class="display" style="width:100%">
+			<thead>
+				<tr>	
+					<th scope="col">email</th>
+					<th scope="col">first_name</th>
+					<th scope="col">last_name</th>
+					<th scope="col" >role</th>
+					<th scope="col">Action</th>				
+				</tr> 
+			</thead>
+			{% for user in object_list %}
+				<tr>
+					<td>{{user.email}}</td>
+					<td class="abc">{{user.first_name}}</td><!--  -->
+					 <td>{{user.last_name}}</td>
+					  <td>{{user.role}}</td>
+					  <td><a href="{%url 'change_status' user.id %}">{%if user.is_active%}<button class="btn btn-danger"> deactivate</button>{%endif%}
+					  	{%if not user.is_active%}<button class="btn btn-success"> activate</button>{%endif%}
+					  </td>	</a>				
+				</tr>
+			{%endfor%}
+		</table>
+	</div>		
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable( {
+				"pagingType": "first_last_numbers",
+				 "lengthChange": false,
+				"info":     false,			
+				 "dom": 'rt <"col-sm-6 text-center"p>'
+			} );
+			} );
+		</script>
+		<script >
+		$("#search").on("keyup", function() {
+    var value = $(this).val();
+
+    $("table tr").each(function(index) {
+        if (index !== 0) {
+
+            $row = $(this);
+
+            var id = $row.find("td:first").text();
+
+            if (id.indexOf(value) !== 0) {
+                $row.hide();
+            }
+            else {
+                $row.show();
+            }
+        }
+    });
+});
+	</script>
+{% endblock %}

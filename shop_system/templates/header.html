@@ -2,55 +2,52 @@
 <nav class="navbar navbar-inverse" style="padding-bottom: 0px;">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="{% url 'landing' %}">The Shop</a>
+			<a class="navbar-brand" href="{% url 'landing' %}">
+			The Shop</a>
 		</div>
-	{% if user.is_authenticated %}
-		{%if user.get_role == 'admin'%}
-		<ul class="nav navbar-nav">
-			<li class="active"><a href="{% url 'company_list' %}">company</a>
-			</li>
-		</ul>
-	
+		{% if user.is_authenticated %}
+			{%if user.get_role == 'admin'%}
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{% url 'company_list' %}">company</a>
+					</li>
+					<li class="active"><a href="{% url 'user_list' %}">Users</a>
+					</li>
+				</ul>		
+			{%endif%}
+			{%if user.get_role == 'owner'%}
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{% url 'product_list' %}">Products</a>
+					</li>
+				</ul>			
+			{%endif%}		
+			{%if user.get_role == 'user'%}
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="{% url 'Buy_product' 'show' %}">cart</a>
+					</li>
+					<li class="active"><a href="{% url 'show_invoice'%}">Invoice</a>
+					</li>
+				</ul>			
+			{%endif%}	    
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href="{% url 'account_logout'   %}"><span class="glyphicon glyphicon-log-out">
+						</span> Logout
+						</a>
+					</li>
+				</ul>
 		{%endif%}
-		{%if user.get_role == 'owner'%}
-		<ul class="nav navbar-nav">
-			<li class="active"><a href="{% url 'product_list' %}">Products</a>
-			</li>
-		</ul>
-		
+		{% if not user.is_authenticated %}
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="{% url 'account_signup'   %}"><span class="glyphicon glyphicon-user">
+					</span> Sign Up
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'account_login'   %}"><span class="glyphicon glyphicon-log-in">
+					</span> Login</a>
+				</li>
+			</ul>
 		{%endif%}
-	
-		{%if user.get_role == 'user'%}
-		<ul class="nav navbar-nav">
-			<li class="active"><a href="{% url 'Buy_product' 'show' %}">cart</a>
-			</li>
-			<li class="active"><a href="{% url 'show_invoice'%}">Invoice</a>
-			</li>
-		</ul>
-		
-		{%endif%}	    
-		<ul class="nav navbar-nav navbar-right">
-			<li>
-				<a href="{% url 'account_logout'   %}"><span class="glyphicon glyphicon-log-out">
-				</span> Logout
-				</a>
-			</li>
-		</ul>
-	{%endif%}
-
-	{% if not user.is_authenticated %}
-	<ul class="nav navbar-nav navbar-right">
-		<li>
-			<a href="{% url 'account_signup'   %}"><span class="glyphicon glyphicon-user">
-			</span> Sign Up
-			</a>
-		</li>
-		<li>
-			<a href="{% url 'account_login'   %}"><span class="glyphicon glyphicon-log-in">
-			</span> Login</a>
-		</li>
-	</ul>
-	{%endif%}
-
 	</div>
 </nav>

@@ -1,178 +1,249 @@
 {% extends 'base.html' %}
-	{% block title %}
-	  shop_system
-	{% endblock %}
+{% block title %}
+shop_system
+{% endblock %}
 {% block content %}
 	{%if category%}
-	
-
-
- <div class="sidenav">
-  <a class="navbar-brand" href="{% url 'landing' %}">The Shop</a><br><br><br>
-  <a href="">
-  Filter By Category </a> 
-    
-  
-  
-    <a href="{% url 'landing'  %}">All</a></li>
-		{%for a in category%}
-			<a href="{% url 'search_category' a.category %}">{{a.category}}</a>
-		{%endfor%}    
- 
-   <a>Sort By Price
-    
-  <a>
-  
-    <a tabindex="-1" href="#">High to Low</a>
-	<a tabindex="-1" href="#">Low To High</a>
-	<!-- <a><p>
-  <label for="amount">Price range:</label>
-  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
- 
-<div id="slider-range"></div></a> -->
-        
-  </div>
-		                    	
-		                    
-  
-</div>
-
 		<div class="container">
-		    <div class="row">    
-		        <div class="col-xs-8 col-xs-offset-2">
-				    <div class="input-group">
-		                <div class="input-group-btn search-panel">
-		                   
-		                </div>
-		                <input type="hidden" name="search_param" value="all" id="search_param">         
-		                <input type="text" class="form-control" id="tags" placeholder="Search product,category or brand..." onkeyup="">
-		                <span class="input-group-btn">
-		                    <button class="btn btn-default" type="button" onclick="searchOpen()">
-		                    	<span class="glyphicon glyphicon-search"></span>
-		                    </button>
-		                </span>
-		            </div>
-		        </div>
+			<div class="row">    
+				<div class="col-xs-8 col-xs-offset-2">
+					<div class="input-group">
+						<div class="input-group-btn search-panel">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<span id="search_concept">Filter by category</span> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="{% url 'landing'  %}">All</a>
+								</li>
+								{%for a in category%}
+									<li><a href="{% url 'search_category' a.category %}">{{a.category}}</a></li>
+								{%endfor%}
+								<li><a class="l2h">Price High to Low</a></li>
+								<li><a class="h2l">Price Low To High</a></li>
+								<li>
+									<p>
+										<label for="amount">Price range:</label>
+										<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+									</p>
+									<div id="slider-range"></div>
+								</li>
+							</ul>
+						</div>		                
+						<input type="hidden" name="search_param" value="all" id="search_param">         
+						<input type="text" class="form-control" id="tags" placeholder="Search product,category or brand..." onkeyup="">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" onclick="searchOpen()">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	{%endif%}
 	
 	{%if object_list%}
-		<div class="container" style="padding-left: 100px;">
+		<div class="container" >
 			<div class="container">
-				<div class="row">
+				<div class="row" >
 					<div class="col-md-12">
 						<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">		      
-		      				<div class="carousel-inner">
-		        				<div class="item carousel-item active">
-		          					<div class="row">
+							<div class="carousel-inner">
+								<div class="item carousel-item active">
+									<div class="row" id="abc">
 									{% for product in object_list %} 
 										<div class="col-sm-3">
-		              						<div class="thumb-wrapper">	                
-		                						<div class="img-box">
-			                						{%for a in images%} 
-			                							{%if product.name == a.name%}
-			                  								<img src="{{a.image.url}}" />  
-			                  							{%endif%}
-			                  						{%endfor%}
-		                  						</div>              						
-		                  						<h4><a href="">{{product.name}}</a></h4>
-		                 						{%for a in images%}       
-		                  							{%if product.name == a.name%}
-		                  								{%for c in prices%}
-			                  								{%if c.user == a.user%}         
-			                 									<h5>Buy On {{c.title}} At {{a.price}} r.s.</h5>
-			                 									{% if user.is_authenticated %}
-					  												<a href="{%url 'Buy_product' a.id %}" class="btn btn-primary"> add to cart >></a>
-					  											{%endif%}
-				  												{% if not user.is_authenticated %}
-					 												<a href="{% url 'Buy_product' a.id   %}" class="btn btn-primary">buy now >></a></a>
-					 											{%endif%}
-			                  								{%endif%}
-		                  								{%endfor%}
-		                  							{%endif%}                 
-		                  						{%endfor%}
-		                  					</div><br>
-		                  				</div>
-		                  			{% endfor%}
-		                  		</div>
-		                  	</div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
+											<div class="thumb-wrapper">	                
+												<div class="img-box">
+													{%for a in images%} 
+														{%if product.name == a.name%}            						
+															<img src="{{a.image.url}}" />  
+														{%endif%}
+													{%endfor%}
+												</div>              						
+												<h4><a href="">{{product.name}}</a></h4>
+												{%for a in images%}       
+													{%if product.name == a.name%}
+														{%for c in prices%}
+															{%if c.user == a.user%}         
+																<h5>Buy On {{c.title}} At </h5><h5 class="price">{{a.price}} ₹</h5>
+																<input type="hidden" class="price_hidden" value="{{a.price}}">
+																{% if user.is_authenticated %}
+																	
+																	
+																{%endif%}
+																{% if not user.is_authenticated %}
+																	<a href="{% url 'Buy_product' a.id   %}" class="btn btn-primary">buy now >></a></a>
+																{%endif%}
+																{% if user.is_authenticated %}
+																	<a href="{% url 'Buy_product' a.id   %}" class="btn btn-primary">Add to cart >></a></a>
+																{%endif%}
+															{%endif%}
+														{%endfor%}
+													{%endif%}                 
+												{%endfor%}
+											</div><br>
+										</div>
+									{% endfor%}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	{%endif%}
-		<div class="container" style="padding-left: 35%;padding-top: 13%">
-	<p style="  font-family: Times New Roman;font-size: 40px; ">{{error}}
-	</p></div>
+	{%if error%}
+	<div class="container" style="padding-left: 35%;padding-top: 13%">
+		<p style="  font-family: Times New Roman;font-size: 40px; ">{{error}}
+		</p>
+	</div>{%endif%}
+	{%if item%}<style type="text/css"> 
 
-		{%if item%}
-			<table  style="border: 1px solid black;">
-			  <tr style="border: 1px solid black;">
-				<td style="border: 1px solid black;">product_name</td>
-				<td style="border: 1px solid black;">Amount</td>
-			  </tr>  
-			  {% for p in item %} 
-			  <tr style="border: 1px solid black;">
-				<td style="border: 1px solid black;">  {{p.name}}</td>
-				<td style="border: 1px solid black;">  {{p.price}}</td>
-			  </tr>
-			  {% endfor%}
-			  <tr>
-				<td>Total amount</td>
-				<td>{{sum.total}}</td>
-			  </tr>
-			</table>
-			<a href="{%url 'Buy_product' 'buy'  %}">buy now</a>
-			<input type="submit" name="Save" class="btn btn-success" value="Empty Cart">
-		{%endif%}
-		<script >
-			function searchOpen(){
-				var product = document.getElementById("tags").value;
-				if(product == ""){
-					product = "fer";
+.
+</style>
+	<div class="shopping-cart">
+	  <!-- Title -->
+	  <div class="title">
+		Shopping Bag
+	  </div>
+{% for p in item %} 
+	  <!-- Product #1 -->
+	  <div class="item">
+		
+		 <div class="container" style="margin-left: 0px;width: 500px;margin-right: 0px;padding-left: 0px;">
+		  <img src="{{p.product.image.url}}"style="max-width: 500px;
+	height: 100px;" />
+		</div>
+
+		
+
+		<div class="description">
+		  <span>{{p.product.name}}</span>
+		 
+		</div>
+
+		<div class="quantity" style="display: inline;">
+		  <button class="minus-btn" type="button" name="button"
+		  >
+			<i class="fa fa-minus"></i>
+		  </button>
+		  <input type="text" name="name" value="{{p.quantity}}"class="fgg">
+		  <button class="plus-btn" type="button" name="button"
+		  >
+			<i class="fa fa-plus"></i>
+		  
+			
+		  </button>
+		</div>
+
+		<div class="total-price"> {{p.total_cost}}</div>
+		<div class="nffn"><br>
+							<button class="btn btn-danger btn-xs">
+								<span class="glyphicon glyphicon-trash"></span>
+								
+							</button>
+						</div>
+	</div>{% endfor%}</div>
+</div>
+
+<br>
+
+	<div class="container">
+	  <a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+	  
+<a href="#" class="btn btn-success">Checkout <i class="fa fa-angle-right"></i></a>
+  </div>
+		
+		<a href="{%url 'Buy_product' 'buy'  %}">buy now</a>
+		<input type="submit" name="Save" class="btn btn-success" value="Empty Cart">
+	{%endif%}
+	<script >
+		function searchOpen(){
+			var product = document.getElementById("tags").value;
+			if(product == ""){
+				product = "fer";
 				}
 				$.ajax({
-				type: 'GET',				
-				success: function (output) {
-				window.location.replace("{%url 'search_product' 0%}".replace(0,product));
-				},
-				error: function(output){
-				  alert(output)
-				 
-				}
-			});
-
-
-
-
+					type: 'GET',				
+					success: function (output) {
+					window.location.replace("{%url 'search_product' 0%}".replace(0,product));
+					},
+					error: function(output){
+						 alert(output)				 
+						}
+					});
 			}
+	
+		$( function() {
+			$( "#slider-range" ).slider({
+				range: true,
+				min: 0,
+				max: 60000,
+				values: [ 75, 300 ],
+				slide: function( event, ui ) {
+				$( "#amount" ).val( "₹" + ui.values[ 0 ] + " - ₹" + ui.values[ 1 ] );
+					var min = ui.values[ 0 ];
+					var max = ui.values[ 1 ];
+					$('#abc .price_hidden').each(function(item){
+						if($(this).val()<min||$(this).val()>max){
+							$(this).parentsUntil(".row").css({"display": "none"});
+							}
+						else{
+							$(this).parentsUntil(".row").css({"display": "block"});
+							}
+						})
+					}
+				});
+			$( "#amount" ).val( "₹" + $( "#slider-range" ).slider( "values", 0 ) +
+				 " - ₹" + $( "#slider-range" ).slider( "values", 1 ) );
+			});        
+	
+		$('.h2l').on('click', function () {
+			var numericallyOrderedDivs = $('.col-sm-3').sort(function (a, b) {
+				return $(a).find(".price").text() > $(b).find(".price").text();
+				});
+			$("#abc").html(numericallyOrderedDivs);
+			});
+		$('.l2h').on('click', function () {
+			var numericallyOrderedDivs = $('.col-sm-3').sort(function (a, b) {
+				return $(a).find(".price").text() < $(b).find(".price").text();
+				});
+			$("#abc").html(numericallyOrderedDivs);
+			});		
+	</script>
+	<script >
+	$('.plus-btn').on('click', function(e) {
+	
+	var $this = $(this);
+	var $input = $this.closest('div').find('input');
+	var value = parseInt($input.val());
+ 
+   
+		value = value + 1;
+   
+		
+ 
+	$input.val(value);
+});
+	$('.minus-btn').on('click', function(e) {
+   
+	var $this = $(this);
+	var $input = $this.closest('div').find('input');
+	var value = parseInt($input.val());
+ 
+	if (value>1) {
+		value = value - 1;
+	} else {
+		value = 1;
+	}
+ 
+  $input.val(value);
+ 
+});
 
 
-
-		</script>
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-		<script>
-  $( function() {
-    $( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 10000,
-      values: [ 75, 300 ],
-      slide: function( event, ui ) {
-        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-      }
-    });
-    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-  } );
-  </script>
-
+	</script>
+	
  
 {% endblock %}

@@ -107,5 +107,12 @@ class DeleteCategoryView(View):
 				s.append('</br>')
 			return HttpResponse(s)
 
-delete_category_view = DeleteCategoryView.as_view()	
+delete_category_view = DeleteCategoryView.as_view()
+
+
+
+
+
+
+
 

@@ -4,10 +4,23 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 
-from product.models import Product, Category
+from product.models import Product, Category, Cart
 from company.models import Company
 from profiles.models import User, Invoice, ProductInvoice
 
+
+class HomeView(View):
+	def get(self, request):
+		category = Category.objects.order_by('category')
+		return render(request,'home.html',{'categorys':category})
+home = HomeView.as_view();
+
+class UserListView(ListView):
+	template_name = "profiles/user.html" 
+	model = User
+	queryset = User.objects.all().exclude(role='admin')	
+
+user_list_view = UserListView.as_view();  
 
 class LandingView(View):
 	category = Category.objects.order_by('category').values('category').distinct()
@@ -28,31 +41,24 @@ invoiceview = InvoiceView.as_view();
 
 class BuyProductView(View):
 	item=[]	
-	
 	def get(self, request, name):		
 		if not request.user.is_authenticated:
 			self.item.append(name)
+			
 			return redirect('account_login')		
 		if name == 'show':
 			queryset = Product.objects.filter(id__in=self.item)
 			amount = queryset.aggregate(total=Sum('price'))
-			return render(request,'profiles/landingpage.html' , {'item':queryset,'sum':amount})
-		if name == 'buy':
-			queryset = Product.objects.filter(id__in=self.item)
-			amount = queryset.aggregate(total=Sum('price'))
-			self.item.clear()
-			invoice = Invoice.objects.create(	
-				user=request.user,
-				total=amount['total']
-							) 			
-			for i in queryset:
-				productinvoice = ProductInvoice.objects.create(
-							invoice=invoice,
-							product=i.id
-									)				
-			return redirect('landing')
+			for product in queryset:
+				Cart.objects.create(
+					user = self.request.user,
+					product = product	
+					)
+			return render(request,'profiles/landingpage.html' , {'item':Cart.objects.filter(user=self.request.user)})
+		
 		else:
-			self.item.append(name)	
+			self.item.append(name)
+			
 		return redirect('landing')
 
 buyproduct=BuyProductView.as_view()	
@@ -95,8 +101,28 @@ class SearchCategory(View):
 		return render(request,'profiles/landingpage.html' , {'object_list':self.queryset1,'category':self.queryset.order_by('category').values('category').distinct(),'images': Product.objects.all().order_by('name'),'prices': Company.objects.all()})
 search_category = SearchCategory.as_view()
 
+def status(request,ids):
+	user = User.objects.get(id=ids)
+	print(user)
+	if user.is_active:
+		print(user.is_active)
+		user.active = False
+		user.save()
+		print(user.is_active)
+		return redirect('user_list')
+	if not  user.is_active:
+		print(user.is_active)
+		user.active = True
+		user.save()
+		return redirect('user_list')
 
-def home(request):
-	category = Category.objects.order_by('category')
-	return render(request,'home.html',{'categorys':category})
+class CreateCartView(View):
 	
+	def get(self,request,name):
+		Cart.object.create(
+			user = self.request.user,
+			product = int(name)		
+			)
+		return HttpResponse('landing')
+
+create_cart = CreateCartView.as_view()
